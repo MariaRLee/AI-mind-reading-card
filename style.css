@@ -191,22 +191,23 @@ code {
 
 @media (max-width: 720px) {
   #emotion-form {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: 420px;
+    gap: 6px;
   }
 
   #emotion-input {
     width: 100%;
     min-width: 0;
+    padding: 9px 10px;
+    font-size: 15px;
   }
 
   #emotion-form button[type="submit"] {
     width: auto;
-    padding: 12px 14px;
-    font-size: 15px;
-    white-space: nowrap;
+    padding: 9px 12px;
+    font-size: 14px;
   }
 }
 
