@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-Mind Care 情緒花卡</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="app">
+    <h1>AI-Mind Care 情緒花卡</h1>
+
+    <p class="intro">
+      看見情緒，讀懂自己，讓心如花綻放。<br>
+      輸入情緒數值（-6.0 ～ +6.0），找到自己專屬情緒的花朵、花語與鼓勵話語。
+    </p>
+
+    <form id="emotion-form" novalidate>
+      <div class="emotion-input-wrap">
+        <input
+          id="emotion-input"
+          name="emotion"
+          type="number"
+          min="-6"
+          max="6"
+          step="0.01"
+          value="1.68"
+          inputmode="decimal"
+          aria-label="情緒數值"
+          required
+        >
+
+        <!-- Only shown on mobile because mobile browsers often hide native arrows -->
+        <div class="mobile-stepper" aria-label="情緒數值調整按鈕">
+          <button type="button" id="step-up" aria-label="增加情緒數值">▲</button>
+          <button type="button" id="step-down" aria-label="減少情緒數值">▼</button>
+        </div>
+      </div>
+
+      <button type="submit" class="select-button">選擇花卡</button>
+    </form>
+
+    <p id="error-message" class="error" role="alert"></p>
+
+    <section id="result" class="result" hidden>
+      <div class="preview">
+        <img id="card-image" alt="">
+        <div id="missing-card" class="missing" hidden></div>
+      </div>
+
+      <div class="details">
+        <h2 id="stage-title"></h2>
+
+        <p class="info-row">
+          <span class="label">輸入情緒值</span>
+          <span id="emotion-value" class="value"></span>
+        </p>
+
+        <p class="info-row">
+          <span class="label">情緒等級</span>
+          <span id="emotion-level" class="value"></span>
+        </p>
+
+        <p class="info-row">
+          <span class="label">花開區間</span>
+          <span id="emotion-range" class="value"></span>
+        </p>
+
+        <p class="info-row">
+          <span class="label">花卡檔案</span>
+          <span id="card-file" class="value"></span>
+        </p>
+
+        <p class="info-row">
+          <span class="label">圖片路徑</span>
+          <code id="card-path" class="value"></code>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="selector.js"></script>
+  <script>
+    "use strict";
+
+    const form = document.getElementById("emotion-form");
+    const input = document.getElementById("emotion-input");
+    const resultSection = document.getElementById("result");
+    const errorMessage = document.getElementById("error-message");
+    const image = document.getElementById("card-image");
+    const missingCard = document.getElementById("missing-card");
+    const stepUpButton = document.getElementById("step-up");
+    const stepDownButton = document.getElementById("step-down");
+
+    const MIN_EMOTION = -6;
+    const MAX_EMOTION = 6;
+    const EMOTION_STEP = 0.01;
+
+    let repeatDelayTimer = null;
+    let repeatTimer = null;
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function changeEmotion(amount) {
+      let value = Number(input.value);
+
+      if (!Number.isFinite(value)) {
+        value = 0;
+      }
+
+      value = Math.round((value + amount + Number.EPSILON) * 100) / 100;
+      value = clamp(value, MIN_EMOTION, MAX_EMOTION);
+      input.value = value.toFixed(2);
+    }
+
+    function stopRepeating() {
+      clearTimeout(repeatDelayTimer);
+      clearInterval(repeatTimer);
+      repeatDelayTimer = null;
+      repeatTimer = null;
+    }
+
+    function startRepeating(amount) {
+      stopRepeating();
+      changeEmotion(amount);
+
+      repeatDelayTimer = setTimeout(function () {
+        repeatTimer = setInterval(function () {
+          changeEmotion(amount);
+        }, 70);
+      }, 450);
+    }
+
+    function connectStepButton(button, amount) {
+      button.addEventListener("pointerdown", function (event) {
+        event.preventDefault();
+        startRepeating(amount);
+      });
+
+      button.addEventListener("pointerup", stopRepeating);
+      button.addEventListener("pointercancel", stopRepeating);
+      button.addEventListener("pointerleave", stopRepeating);
+
+      button.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          changeEmotion(amount);
+        }
+      });
+    }
+
+    connectStepButton(stepUpButton, EMOTION_STEP);
+    connectStepButton(stepDownButton, -EMOTION_STEP);
+    document.addEventListener("pointerup", stopRepeating);
+    document.addEventListener("pointercancel", stopRepeating);
+
+    function displayCard(rawEmotion) {
+      errorMessage.textContent = "";
+
+      try {
+        const selected = FlowerCardSelector.selectFlowerCard(rawEmotion);
+
+        document.getElementById("emotion-value").textContent =
+          selected.emotion.toFixed(2);
+
+        document.getElementById("emotion-level").textContent =
+          selected.level > 0 ? `+${selected.level}` : String(selected.level);
+
+        document.getElementById("emotion-range").textContent = selected.range;
+        document.getElementById("stage-title").textContent =
+          `第 ${selected.stage} 張｜${selected.stageName}`;
+        document.getElementById("card-file").textContent = selected.fileName;
+        document.getElementById("card-path").textContent = selected.cardPath;
+
+        image.hidden = false;
+        missingCard.hidden = true;
+        image.alt =
+          `情緒 ${selected.emotion.toFixed(2)} 的${selected.stageName}花卡`;
+        image.src = selected.cardPath;
+
+        image.onload = function () {
+          image.hidden = false;
+          missingCard.hidden = true;
+        };
+
+        image.onerror = function () {
+          image.hidden = true;
+          missingCard.hidden = false;
+          missingCard.innerHTML =
+            `已選到 <strong>${selected.fileName}</strong>，但找不到圖片。` +
+            `<br>請確認圖片位於：<br><code>${selected.cardPath}</code>`;
+        };
+
+        resultSection.hidden = false;
+      } catch (error) {
+        resultSection.hidden = true;
+        errorMessage.textContent = error.message;
+      }
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const value = Number(input.value);
+
+      if (!Number.isFinite(value)) {
+        resultSection.hidden = true;
+        errorMessage.textContent = "請輸入有效的情緒數值。";
+        return;
+      }
+
+      if (value < MIN_EMOTION || value > MAX_EMOTION) {
+        resultSection.hidden = true;
+        errorMessage.textContent =
+          "請輸入 -6.00 至 +6.00 之間的情緒數值。";
+        return;
+      }
+
+      input.value = value.toFixed(2);
+      displayCard(input.value);
+    });
+
+    displayCard(input.value);
+  </script>
+</body>
+</html>
