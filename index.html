@@ -127,6 +127,67 @@
     const image = document.getElementById("card-image");
     const missingCard = document.getElementById("missing-card");
 
+     /* 加在這裡 */
+  const stepUpButton = document.getElementById("step-up");
+  const stepDownButton = document.getElementById("step-down");
+
+  const MIN_EMOTION = -6;
+  const MAX_EMOTION = 6;
+  const EMOTION_STEP = 0.01;
+
+  let stepDelayTimer = null;
+  let stepRepeatTimer = null;
+
+  function changeEmotion(amount) {
+    let value = Number(input.value);
+
+    if (!Number.isFinite(value)) {
+      value = 0;
+    }
+
+    value = Math.round((value + amount) * 100) / 100;
+    value = Math.max(MIN_EMOTION, Math.min(MAX_EMOTION, value));
+
+    input.value = value.toFixed(2);
+  }
+
+  function stopStepping() {
+    clearTimeout(stepDelayTimer);
+    clearInterval(stepRepeatTimer);
+
+    stepDelayTimer = null;
+    stepRepeatTimer = null;
+  }
+
+  function startStepping(amount) {
+    stopStepping();
+
+    changeEmotion(amount);
+
+    stepDelayTimer = setTimeout(function () {
+      stepRepeatTimer = setInterval(function () {
+        changeEmotion(amount);
+      }, 35);
+    }, 400);
+  }
+
+  function connectStepButton(button, amount) {
+    button.addEventListener("pointerdown", function (event) {
+      event.preventDefault();
+      startStepping(amount);
+    });
+
+    button.addEventListener("pointerup", stopStepping);
+    button.addEventListener("pointercancel", stopStepping);
+    button.addEventListener("pointerleave", stopStepping);
+  }
+
+  connectStepButton(stepUpButton, EMOTION_STEP);
+  connectStepButton(stepDownButton, -EMOTION_STEP);
+
+  document.addEventListener("pointerup", stopStepping);
+  document.addEventListener("pointercancel", stopStepping);
+
     function displayCard(rawEmotion) {
       errorMessage.textContent = "";
 
