@@ -385,3 +385,155 @@ body {
     max-width: 100%;
   }
 }
+/* Input and 選擇花卡 on one line */
+#emotion-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 8px;
+
+  width: min(430px, 100%);
+  max-width: 100%;
+}
+
+/* Input container */
+.emotion-input-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Normal editable input */
+#emotion-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+
+  box-sizing: border-box;
+  padding: 10px 12px;
+
+  font-size: 17px;
+}
+
+/* Mobile buttons are hidden on computers */
+.mobile-stepper {
+  display: none;
+}
+
+/* Select card button */
+#emotion-form .select-button {
+  flex: 0 0 auto;
+  width: auto;
+  height: 48px;
+
+  padding: 10px 16px;
+
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+
+/* Mobile display */
+@media (max-width: 720px) {
+
+  #emotion-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    width: 100%;
+    max-width: 100%;
+    gap: 6px;
+  }
+
+  .emotion-input-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  #emotion-input {
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+
+    /* Leave room for custom arrows */
+    padding: 9px 46px 9px 10px;
+
+    font-size: 16px;
+  }
+
+  /* Hide mobile browser's inconsistent native spinner */
+  #emotion-input {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  #emotion-input::-webkit-inner-spin-button,
+  #emotion-input::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+
+  /* Mobile arrows inside the input */
+  .mobile-stepper {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    bottom: 3px;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+    width: 36px;
+
+    overflow: hidden;
+    border-left: 1px solid #b8c0ba;
+    border-radius: 0 8px 8px 0;
+  }
+
+  #emotion-form .mobile-stepper button {
+    display: grid;
+    place-items: center;
+
+    width: 36px;
+    min-width: 36px;
+    height: auto;
+    min-height: 0;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: #eef2ef;
+    color: #405448;
+
+    font-size: 10px;
+    line-height: 1;
+
+    touch-action: none;
+    user-select: none;
+  }
+
+  #emotion-form .mobile-stepper button:first-child {
+    border-bottom: 1px solid #b8c0ba;
+  }
+
+  #emotion-form .mobile-stepper button:active {
+    background: #dce5df;
+  }
+
+  #emotion-form .select-button {
+    flex: 0 0 auto;
+    width: auto;
+    height: 46px;
+
+    padding: 8px 10px;
+
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
