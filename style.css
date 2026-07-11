@@ -1,0 +1,156 @@
+:root {
+  font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  color: #27332d;
+  background: #f5f2ea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.app {
+  width: min(920px, 100%);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #dedbd1;
+  border-radius: 24px;
+  padding: clamp(22px, 4vw, 42px);
+  box-shadow: 0 20px 55px rgba(53, 65, 57, 0.12);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.intro {
+  margin: 0 0 28px;
+  color: #637068;
+  line-height: 1.7;
+}
+
+form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+input {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid #b8c0ba;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 18px;
+}
+
+input:focus {
+  outline: 3px solid rgba(80, 120, 95, 0.18);
+  border-color: #50785f;
+}
+
+button {
+  padding: 14px 24px;
+  border: 0;
+  border-radius: 12px;
+  background: #50785f;
+  color: white;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(0.95);
+}
+
+.error {
+  min-height: 26px;
+  margin: 12px 0 0;
+  color: #a33a3a;
+}
+
+.result {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.9fr) minmax(280px, 1.1fr);
+  gap: 26px;
+  margin-top: 24px;
+  align-items: start;
+}
+
+.preview {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid #ddd8cc;
+  background: #faf9f5;
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 620px;
+  object-fit: contain;
+}
+
+.missing {
+  padding: 28px;
+  text-align: center;
+  color: #6a716c;
+  line-height: 1.7;
+}
+
+.details {
+  padding: 4px 0;
+}
+
+.details h2 {
+  margin: 0 0 18px;
+  font-size: 26px;
+}
+
+.info-row {
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ece9e1;
+}
+
+.label {
+  display: block;
+  margin-bottom: 4px;
+  color: #748078;
+  font-size: 14px;
+}
+
+.value {
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+code {
+  background: #f1efe8;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+@media (max-width: 720px) {
+  .result {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: 100%;
+  }
+}
