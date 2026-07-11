@@ -24,8 +24,8 @@
 
     const emotion = roundToTwoDecimals(value);
 
-    if (emotion < -6.99 || emotion > 6.99) {
-      throw new Error("情緒值必須介於 -6.99 與 +6.99 之間。");
+    if (emotion < -6.00 || emotion > 6.00) {
+      throw new Error("情緒值必須介於 -6.00 與 +6.00 之間。");
     }
 
     return emotion;
