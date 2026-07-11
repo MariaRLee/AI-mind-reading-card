@@ -259,7 +259,7 @@ body {
 /* Allow input to shrink without pushing the button down */
 #emotion-form #emotion-input {
   flex: 1 1 0;
-  width: 0;
+  width: 100%;
   min-width: 0;
 
   padding: 10px 12px;
@@ -330,7 +330,7 @@ body {
 
   #emotion-form #emotion-input {
     flex: 1 1 0;
-    width: 0;
+    width: 100%;
     min-width: 0;
     padding: 9px 10px;
     font-size: 16px;
