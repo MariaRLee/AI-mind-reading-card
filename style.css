@@ -29,13 +29,16 @@ h1 {
   margin: 0 0 8px;
   font-size: clamp(28px, 4vw, 42px);
 }
-
+/*
 .intro {
   margin: 0 0 28px;
   color: #637068;
   line-height: 1.7;
 }
-
+*/
+.intro p {
+  margin: 4px 0;
+}
 form {
   display: flex;
   gap: 12px;
