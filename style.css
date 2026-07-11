@@ -132,16 +132,18 @@ button:hover {
   background: #faf9f5;
 }
 */
+/* Limit flower-card image size */
 .preview {
-  background: transparent;
-  border: none;
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
 }
+
 .preview img {
   display: block;
   width: 100%;
-  max-width: 100%;
+  max-width: 520px;
   height: auto;
-  max-height: 720px;
   object-fit: contain;
 }
 .missing {
@@ -203,7 +205,19 @@ code {
     padding: 9px 10px;
     font-size: 15px;
   }
+@media (max-width: 720px) {
+  .preview {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
 
+  .preview img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+}
   #emotion-form button[type="submit"] {
     width: auto;
     padding: 9px 12px;
@@ -335,5 +349,39 @@ body {
     grid-template-columns: minmax(0, 1fr);
     gap: 10px;
     width: 100%;
+  }
+}
+.result {
+  display: grid;
+  grid-template-columns: minmax(0, 560px) 180px;
+  gap: 16px;
+  margin-top: 8px;
+  align-items: start;
+  justify-content: start;
+}
+
+.preview {
+  width: 100%;
+  max-width: 560px;
+  margin: 0;
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 720px) {
+  .result {
+    grid-template-columns: 1fr;
+  }
+
+  .preview,
+  .preview img {
+    width: 100%;
+    max-width: 100%;
   }
 }
