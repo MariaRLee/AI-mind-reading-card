@@ -105,7 +105,7 @@ button:hover {
 .preview {
   min-height: 500px;
   display: grid;
-  place-items: center;
+  place-items: start center;
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid #ddd8cc;
