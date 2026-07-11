@@ -77,11 +77,23 @@ button:hover {
 }
 
 .error {
-  min-height: 26px;
-  margin: 12px 0 0;
+  margin: 4px 0 0;
   color: #a33a3a;
 }
 
+.error:empty {
+  display: none;
+}
+
+/* 沒有錯誤訊息時，不保留空白位置 */
+.error:empty {
+  display: none;
+}
+
+/* 縮小「選擇花卡」按鈕與圖片之間的距離 */
+.result {
+  margin-top: 6px;
+}
 .result {
   display: grid;
   grid-template-columns: minmax(420px, 1.6fr) minmax(220px, 0.7fr);
