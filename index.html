@@ -15,7 +15,7 @@
       看見情緒，讀懂自己，讓心如花綻放。<br>
       輸入情緒數值（-6.0 ～ +6.0），找到自己專屬情緒的花朵、花語與鼓勵話語。
     </p>
-
+<--
     <form id="emotion-form" novalidate>
       <input
         id="emotion-input"
@@ -32,7 +32,48 @@
 
       <button type="submit">選擇花卡</button>
     </form>
-   
+  -->
+  <form id="emotion-form" novalidate>
+
+  <div class="emotion-input-wrap">
+    <input
+      id="emotion-input"
+      name="emotion"
+      type="number"
+      min="-6"
+      max="6"
+      step="0.01"
+      value="1.68"
+      inputmode="decimal"
+      aria-label="情緒數值"
+      required
+    >
+
+    <!-- Displayed only on mobile -->
+    <div class="mobile-stepper">
+      <button
+        type="button"
+        id="step-up"
+        aria-label="增加情緒數值"
+      >
+        ▲
+      </button>
+
+      <button
+        type="button"
+        id="step-down"
+        aria-label="減少情緒數值"
+      >
+        ▼
+      </button>
+    </div>
+  </div>
+
+  <button type="submit" class="select-button">
+    選擇花卡
+  </button>
+
+</form>
 
     <p id="error-message" class="error" role="alert"></p>
 
