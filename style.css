@@ -178,7 +178,7 @@ code {
   padding: 2px 7px;
   border-radius: 6px;
 }
-
+/*
 @media (max-width: 720px) {
   .result {
     grid-template-columns: 1fr;
@@ -186,6 +186,27 @@ code {
 
   button {
     width: 100%;
+  }
+} */
+
+@media (max-width: 720px) {
+  #emotion-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  #emotion-input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #emotion-form button[type="submit"] {
+    width: auto;
+    padding: 12px 14px;
+    font-size: 15px;
+    white-space: nowrap;
   }
 }
 
