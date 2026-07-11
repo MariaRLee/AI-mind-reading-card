@@ -18,7 +18,7 @@
 .top-title {
   flex: 1;
 }
-
+/*
 .hylove-logo1 {
   width: 105px;
   height: auto;
@@ -26,6 +26,7 @@
   flex-shrink: 0;
   object-fit: contain;
 }
+*/
 body {
   min-height: 100vh;
   margin: 0;
